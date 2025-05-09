@@ -1,9 +1,9 @@
-module be.ugent.objprog.databankgui {
+module databankgui {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
 
 
-    opens be.ugent.objprog.databankgui to javafx.fxml;
-    exports be.ugent.objprog.databankgui;
+    opens databankgui to javafx.fxml;
+    exports databankgui;
 }
