@@ -26,19 +26,25 @@ public class JDBCDataAccessProvider implements DataAccessProvider {
     }
 
     public DataAccessContext getDataAccessContext() throws SQLException {
-        return new JDBCDataAccessContext(new JDBCContactTypeDAO(), getConnection());
+        Connection connection = getConnection();
+        return new JDBCDataAccessContext(new JDBCContactTypeDAO(connection), connection);
     }
 
     private Connection getConnection() throws SQLException {
         String user = databaseProperties.getProperty("user");
         if (user != null) {
-            return DriverManager.getConnection(
-                    databaseProperties.getProperty("url"),
-                    user,
-                    databaseProperties.getProperty("password")
-            );
+            try {
+                return DriverManager.getConnection(
+                        databaseProperties.getProperty("url"),
+                        user,
+                        databaseProperties.getProperty("password")
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             return DriverManager.getConnection(databaseProperties.getProperty("url"));
         }
+        return null;
     }
 }

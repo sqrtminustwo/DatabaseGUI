@@ -1,6 +1,7 @@
 package databankgui.databank.dac;
 
 import databankgui.databank.dao.contact.ContactDAO;
+import databankgui.databank.dao.contact.JDBCContactDAO;
 import databankgui.databank.dao.contactcodes.ContactTypeDAO;
 import databankgui.databank.dao.contactcodes.JDBCContactTypeDAO;
 import databankgui.databank.dao.person.JDBCPersonDao;
@@ -11,11 +12,11 @@ import java.sql.SQLException;
 
 public class JDBCDataAccessContext implements DataAccessContext {
 
-    private final JDBCContactTypeDAO contactDAO;
+    private final JDBCContactTypeDAO contactTypeDAO;
     private final Connection connection;
 
     public JDBCDataAccessContext(JDBCContactTypeDAO contactTypeDAO, Connection connection) {
-        this.contactDAO = contactTypeDAO;
+        this.contactTypeDAO = contactTypeDAO;
         this.connection = connection;
     }
 
@@ -26,12 +27,12 @@ public class JDBCDataAccessContext implements DataAccessContext {
 
     @Override
     public ContactDAO getContactDAO() {
-        return null;
+        return new JDBCContactDAO(connection);
     }
 
     @Override
     public ContactTypeDAO getContactTypeDAO() {
-        return null;
+        return contactTypeDAO;
     }
 
     @Override

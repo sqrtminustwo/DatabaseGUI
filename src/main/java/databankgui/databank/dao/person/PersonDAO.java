@@ -7,7 +7,7 @@ public interface PersonDAO {
 
     int createPerson(String name, String firstName) throws DataAccessException;
 
-    void updatePerson(int id, String name, String firstName) throws DataAccessException;
+    void updatePerson(int id, String newVoornaam, String newFamielienaam) throws DataAccessException;
 
     void deletePerson(int id) throws DataAccessException;
 
