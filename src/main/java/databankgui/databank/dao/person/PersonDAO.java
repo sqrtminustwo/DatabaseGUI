@@ -5,9 +5,9 @@ import databankgui.databank.DataAccessException;
 
 public interface PersonDAO {
 
-    int createPerson(String name, String firstName) throws DataAccessException;
+    Person createPerson(String familienaam, String voornaam) throws DataAccessException;
 
-    void updatePerson(int id, String newVoornaam, String newFamielienaam) throws DataAccessException;
+    void updatePerson(int id, String newFamilienaam, String newVoornaam) throws DataAccessException;
 
     void deletePerson(int id) throws DataAccessException;
 

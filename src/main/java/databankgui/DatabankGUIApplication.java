@@ -11,12 +11,12 @@ import java.util.Objects;
 public class DatabankGUIApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(DatabankGUIApplication.class.getResource("/DatabankGUI.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(DatabankGUIApplication.class.getResource("/fxml/MainPage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 550, 600);
         stage.setTitle("DatabankGUI");
         stage.setScene(scene);
         stage.setResizable(false);
-        scene.getStylesheets().add(Objects.requireNonNull(DatabankGUIApplication.class.getResource("/style.css")).toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(DatabankGUIApplication.class.getResource("/styles/style.css")).toExternalForm());
         stage.show();
     }
 

@@ -13,21 +13,39 @@ public class JDBCPersonDao extends JDBCAbstractDAO implements PersonDAO {
 
     public JDBCPersonDao(Connection connection) { super(connection); }
 
+    public boolean existsPerson(String familienaam, String voornaam) throws DataAccessException {
+        try (
+                PreparedStatement check = prepare("SELECT * FROM personen WHERE familienaam = ? AND voornaam = ?")
+        ) {
+            check.setString(1, familienaam);
+            check.setString(2, voornaam);
+            try (ResultSet rs = check.executeQuery()) {
+                return rs.next();
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     @Override
-    public int createPerson(String name, String firstName) throws DataAccessException {
-        int id;
+    public Person createPerson(String familienaam, String voornaam) throws DataAccessException {
+        if (existsPerson(familienaam, voornaam))
+            throw new DataAccessException("Person " + familienaam + " " + voornaam + " already exists!");
+
+        Person person;
+
         try (
                 PreparedStatement voegperson = prepare(
                         "INSERT INTO personen (familienaam,voornaam) VALUES (?,?)"
                 )
         ) {
-            voegperson.setString(1, name);
-            voegperson.setString(2, firstName);
+            voegperson.setString(1, familienaam);
+            voegperson.setString(2, voornaam);
             voegperson.executeUpdate();
 
             try (ResultSet rs = voegperson.getGeneratedKeys()) {
                 if (rs != null && rs.next()) {
-                    id = rs.getInt(1);
+                    person = new Person(rs.getInt(1), familienaam, voornaam);
                 } else {
                     throw new RuntimeException("Fout bij genereren van sleutel voor persoon!");
                 }
@@ -35,18 +53,22 @@ public class JDBCPersonDao extends JDBCAbstractDAO implements PersonDAO {
         } catch (Exception e) {
             throw new DataAccessException("Konde persoon niet toevoegen:\n" + e.getMessage());
         }
-        return id;
+        return person;
     }
 
 
     @Override
-    public void updatePerson(int id, String newVoornaam, String newFamielienaam) throws DataAccessException {
+    public void updatePerson(int id, String newFamilienaam, String newVoornaam) throws DataAccessException {
+
+        if (existsPerson(newFamilienaam, newVoornaam))
+            throw new DataAccessException("Person " + newFamilienaam + " " + newVoornaam + " already exists!");
+
         try (
                 PreparedStatement updateperson = prepare(
                         "UPDATE personen SET familienaam = ?, voornaam = ? WHERE id = ?"
                 )
         ) {
-            updateperson.setString(1, newFamielienaam);
+            updateperson.setString(1, newFamilienaam);
             updateperson.setString(2, newVoornaam);
             updateperson.setInt(3, id);
 
