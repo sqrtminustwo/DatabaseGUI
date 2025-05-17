@@ -1,8 +1,21 @@
 package databankgui.pages.cells;
 
+import databankgui.databank.dao.person.Person;
+import databankgui.pages.MainPage;
+import databankgui.pages.changepage.EditPage;
+
+import java.util.Objects;
+
 public class EditButtonCell extends ButtonCell {
 
-    public EditButtonCell() {
-        super("edit.png");
+    public EditButtonCell(MainPage creator) {
+        super(creator, "edit.png");
+    }
+
+    @Override
+    public void handleButtonLocal(Object obj) {
+        EditPage editPage = new EditPage(creator, button);
+        editPage.setPerson((Person) obj);
+        editPage.createWindow(null);
     }
 }

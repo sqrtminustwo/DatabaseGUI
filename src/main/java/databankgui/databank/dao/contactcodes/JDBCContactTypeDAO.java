@@ -6,6 +6,8 @@ import databankgui.databank.dao.JDBCAbstractDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JDBCContactTypeDAO extends JDBCAbstractDAO implements ContactTypeDAO {
 
@@ -27,5 +29,20 @@ public class JDBCContactTypeDAO extends JDBCAbstractDAO implements ContactTypeDA
             throw new DataAccessException("Error finding contactype (" + id + "): " + e.getMessage());
         }
         return null;
+    }
+
+    public List<String> getAllContactTypes() throws DataAccessException {
+        List<String> contactTypes = new ArrayList<>();
+        try (PreparedStatement findpersons = prepare(
+                "SELECT naam FROM contactcodes"
+        )) {
+            ResultSet rs = findpersons.executeQuery();
+            while (rs.next()) {
+                contactTypes.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+            throw new DataAccessException("Error getting all contact types: " + e.getMessage());
+        }
+        return contactTypes;
     }
 }
