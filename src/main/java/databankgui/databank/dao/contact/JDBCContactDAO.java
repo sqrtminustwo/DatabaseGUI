@@ -39,6 +39,17 @@ public class JDBCContactDAO extends JDBCAbstractDAO implements ContactDAO {
         }
     }
 
+    @Override
+    public void editContact(int id, String adres) throws DataAccessException {
+        try (PreparedStatement deletecontact = prepare("UPDATE contactgegevens SET adres = ? WHERE id = ?")) {
+            deletecontact.setString(1, adres);
+            deletecontact.setInt(2, id);
+            deletecontact.executeUpdate();
+        } catch (Exception e) {
+            throw new DataAccessException("Fout bij updaten van contact (" + id + "):\n" + e.getMessage());
+        }
+    }
+
     public Iterable<Contact> getContactGegevens(PreparedStatement statement) throws DataAccessException {
         List<Contact> persons = new ArrayList<>();
         try {

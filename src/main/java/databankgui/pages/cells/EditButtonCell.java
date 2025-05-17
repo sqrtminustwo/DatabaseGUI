@@ -3,9 +3,6 @@ package databankgui.pages.cells;
 import databankgui.databank.dao.person.Person;
 import databankgui.pages.MainPage;
 import databankgui.pages.changepage.EditPage;
-
-import java.util.Objects;
-
 public class EditButtonCell extends ButtonCell {
 
     public EditButtonCell(MainPage creator) {

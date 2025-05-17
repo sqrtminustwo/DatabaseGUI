@@ -8,6 +8,8 @@ public interface ContactDAO {
 
     void deleteContact (int id) throws DataAccessException;
 
+    void editContact(int id, String adres) throws DataAccessException;
+
     Iterable<Contact> findContacts(int personId) throws DataAccessException;
     Iterable<Contact> findContactsByType(int personId, String type) throws DataAccessException;
 }

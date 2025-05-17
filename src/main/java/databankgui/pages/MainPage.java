@@ -39,13 +39,13 @@ public class MainPage {
         table.setMaxWidth(515);
         table.setPlaceholder(new Label("No person found"));
 
-        List<Column<T>> toAdd = List.of(
-                new Column("Voornaam", "voornaam", 200),
-                new Column("Familienaam", "familienaam", 200),
-                new Column(param -> new EditButtonCell(this), 50),
-                new Column(param -> new DeletePersonCell(this, DeletePersonCell.DeleteTypes.DELETEPERSON), 50)
+        List<Column> toAdd = List.of(
+                new Column("Voornaam", "voornaam", 200, false),
+                new Column("Familienaam", "familienaam", 200, false),
+                new Column(param -> new EditButtonCell(this), 50, false),
+                new Column(param -> new DeletePersonCell(this, DeletePersonCell.DeleteTypes.DELETEPERSON), 50, false)
         );
-        toAdd.forEach(column -> table.getColumns().add((TableColumn<Person, ?>) column.getColumn()));
+        toAdd.forEach(column -> table.getColumns().add((TableColumn<Person, String>) column.getColumn()));
 
         searchButton.setOnMouseReleased(this::searchHandler);
         inputField.setOnKeyReleased(this::searchHandler);
@@ -57,6 +57,12 @@ public class MainPage {
             addAllPersons();
         } catch (Exception e) {
             System.err.println("Error connecting to server:\n" + e.getMessage());
+        }
+
+        try {
+            jdbcDAC.getContactDAO().createContact(3254, "E", "t");
+        } catch (Exception e) {
+            System.err.println("Error creating contact:\n" + e.getMessage());
         }
     }
 
@@ -113,6 +119,14 @@ public class MainPage {
             System.err.println("Error getting all contact types:\n" + e.getMessage());
         }
         return contacts;
+    }
+
+    public void updateContactAdres(Contact contact, String newAdres) {
+        try {
+            jdbcDAC.getContactDAO().editContact(contact.getId(), newAdres);
+        } catch (Exception e) {
+            System.err.println("Error setting new adres:\n" + e.getMessage());
+        }
     }
 
 }
