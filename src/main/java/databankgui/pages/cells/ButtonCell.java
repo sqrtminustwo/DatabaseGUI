@@ -1,7 +1,6 @@
 package databankgui.pages.cells;
 
 import databankgui.DatabankGUIApplication;
-import databankgui.databank.dao.person.Person;
 import databankgui.pages.MainPage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -37,9 +36,9 @@ public abstract class ButtonCell extends TableCell<Object, Button> {
 
     public void handleButton(MouseEvent mouseEvent) {
         Object obj = getTableRow().getItem();
-        if (obj != null) handleButtonLocal(obj);
+        if (obj != null) handleButtonLocal(obj, mouseEvent);
     }
 
-    public abstract void handleButtonLocal(Object obj);
+    public abstract void handleButtonLocal(Object obj, MouseEvent mouseEvent);
 
 }

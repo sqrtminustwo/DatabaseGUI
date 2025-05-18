@@ -5,6 +5,7 @@ import databankgui.databank.dao.contact.Contact;
 import databankgui.databank.dao.person.Person;
 import databankgui.pages.MainPage;
 import databankgui.pages.changepage.EditPage;
+import javafx.scene.input.MouseEvent;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -46,5 +47,7 @@ public class DeletePersonCell extends ButtonCell {
     }
 
     @Override
-    public void handleButtonLocal(Object obj) { deleteActions.get(deleteType).accept(obj); }
+    public void handleButtonLocal(Object obj, MouseEvent mouseEvent) {
+        deleteActions.get(deleteType).accept(obj);
+    }
 }

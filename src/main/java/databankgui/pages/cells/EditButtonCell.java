@@ -3,6 +3,8 @@ package databankgui.pages.cells;
 import databankgui.databank.dao.person.Person;
 import databankgui.pages.MainPage;
 import databankgui.pages.changepage.EditPage;
+import javafx.scene.input.MouseEvent;
+
 public class EditButtonCell extends ButtonCell {
 
     public EditButtonCell(MainPage creator) {
@@ -10,9 +12,9 @@ public class EditButtonCell extends ButtonCell {
     }
 
     @Override
-    public void handleButtonLocal(Object obj) {
+    public void handleButtonLocal(Object obj, MouseEvent mouseEvent) {
         EditPage editPage = new EditPage(creator, button);
         editPage.setPerson((Person) obj);
-        editPage.createWindow(null);
+        editPage.createWindow(mouseEvent);
     }
 }

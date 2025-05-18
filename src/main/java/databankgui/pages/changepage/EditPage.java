@@ -7,10 +7,8 @@ import databankgui.pages.MainPage;
 import databankgui.pages.cells.DeletePersonCell;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
-
-import java.util.List;
 
 public class EditPage extends ChangePage{
 
@@ -19,9 +17,13 @@ public class EditPage extends ChangePage{
     @FXML
     protected TextField familienaamInput;
     @FXML
+    protected Button saveButton;
+    @FXML
     protected TableView<Contact> gegevensTable;
     @FXML
     protected ChoiceBox<String> choiceBox;
+    @FXML
+    protected Button addContactButton;
     private Person person;
 
     public EditPage(MainPage creator, Button editButton) {
@@ -35,7 +37,42 @@ public class EditPage extends ChangePage{
         familienaamInput.setText(person.getFamilienaam());
         createTable();
         createChoiceBox();
+        saveButton.setOnMouseReleased(this::saveGegevens);
+        addContactButton.setOnMouseReleased(this::createContact);
     }
+
+    private void saveGegevens(MouseEvent mouseEvent) {
+        String newVoornaam = voornaamInput.getText();
+        String newFamilienaam = familienaamInput.getText();
+        if (!newVoornaam.isEmpty() && !newFamilienaam.isEmpty()) {
+            try {
+                creator.updatePerson(person, newFamilienaam, newVoornaam);
+            } catch (Exception e) {
+                System.err.println("Error updating person:\n");
+                e.printStackTrace();
+            }
+            return;
+        }
+        System.err.println("Voornaam en naam mag niet leeg zijn!");
+    }
+
+    private void createContact(MouseEvent mouseEvent) {
+        String contactType = choiceBox.getValue();
+        System.out.println(contactType);
+        if (contactType != null) {
+            try {
+                creator.createContactAdres(contactType, person);
+                fillTable();
+            } catch (Exception e) {
+                System.err.println("Error creating contact:\n");
+                e.printStackTrace();
+            }
+            return;
+        }
+        System.err.println("No contact type selected!");
+    }
+
+    public void deleteContact(Contact contact) { gegevensTable.getItems().remove(contact); }
 
     public void createTable() {
         gegevensTable.setEditable(true);
@@ -50,8 +87,12 @@ public class EditPage extends ChangePage{
         adresColumn.setOnEditCommit(event -> {
             Contact contact = event.getRowValue();
             String adres = event.getNewValue();
-            creator.updateContactAdres(contact, adres);
-            fillTable();
+            try {
+                creator.updateContactAdres(contact, adres);
+                fillTable();
+            } catch (Exception e) {
+                System.err.println("Error setting new adres:\n" + e.getMessage());
+            }
         });
 
         gegevensTable.getColumns().addAll(
@@ -63,14 +104,22 @@ public class EditPage extends ChangePage{
         fillTable();
     }
 
-    public void createChoiceBox() { choiceBox.getItems().addAll(creator.getAllContactTypes()); }
+    public void createChoiceBox() {
+        try {
+            choiceBox.getItems().addAll(creator.getAllContactTypes());
+        } catch (Exception e) {
+            System.err.println("Error adding choice box items:\n" + e.getMessage());
+        }
+    }
 
     public void fillTable() {
         gegevensTable.getItems().clear();
-        gegevensTable.getItems().addAll(creator.getAllPersonContacts(person));
+        try {
+            gegevensTable.getItems().addAll(creator.getAllPersonContacts(person));
+        } catch (Exception e) {
+            System.err.println("Error getting all contacts:\n" + e.getMessage());
+        }
     }
 
     public void setPerson(Person person) { this.person = person; }
-
-    public void deleteContact(Contact contact) { gegevensTable.getItems().remove(contact); }
 }

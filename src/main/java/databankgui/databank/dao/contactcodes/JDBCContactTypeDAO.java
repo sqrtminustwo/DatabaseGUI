@@ -11,7 +11,6 @@ import java.util.List;
 
 public class JDBCContactTypeDAO extends JDBCAbstractDAO implements ContactTypeDAO {
 
-
     public JDBCContactTypeDAO(Connection connection) {
         super(connection);
     }
@@ -31,14 +30,14 @@ public class JDBCContactTypeDAO extends JDBCAbstractDAO implements ContactTypeDA
         return null;
     }
 
-    public List<String> getAllContactTypes() throws DataAccessException {
-        List<String> contactTypes = new ArrayList<>();
+    public List<ContactCode> getAllContactTypes() throws DataAccessException {
+        List<ContactCode> contactTypes = new ArrayList<>();
         try (PreparedStatement findpersons = prepare(
-                "SELECT naam FROM contactcodes"
+                "SELECT * FROM contactcodes"
         )) {
             ResultSet rs = findpersons.executeQuery();
             while (rs.next()) {
-                contactTypes.add(rs.getString(1));
+                contactTypes.add(new ContactCode(rs.getString(1), rs.getString(2)));
             }
         } catch (Exception e) {
             throw new DataAccessException("Error getting all contact types: " + e.getMessage());

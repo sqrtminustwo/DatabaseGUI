@@ -2,8 +2,8 @@ package databankgui.pages;
 
 import databankgui.databank.DataAccessException;
 import databankgui.databank.dac.DataAccessContext;
-import databankgui.databank.dac.JDBCDataAccessContext;
 import databankgui.databank.dao.contact.Contact;
+import databankgui.databank.dao.contactcodes.ContactCode;
 import databankgui.databank.dao.person.Person;
 import databankgui.databank.dap.JDBCDataAccessProvider;
 import databankgui.pages.cells.DeletePersonCell;
@@ -34,7 +34,7 @@ public class MainPage {
     protected TableView<Person> table;
     private DataAccessContext jdbcDAC;
 
-    public <T> void initialize() {
+    public void initialize() {
         table.setPrefHeight(500);
         table.setMaxWidth(515);
         table.setPlaceholder(new Label("No person found"));
@@ -58,12 +58,6 @@ public class MainPage {
         } catch (Exception e) {
             System.err.println("Error connecting to server:\n" + e.getMessage());
         }
-
-        try {
-            jdbcDAC.getContactDAO().createContact(3254, "E", "t");
-        } catch (Exception e) {
-            System.err.println("Error creating contact:\n" + e.getMessage());
-        }
     }
 
     public void searchHandler(Event event) {
@@ -71,14 +65,10 @@ public class MainPage {
         else if (event instanceof KeyEvent && ((KeyEvent) event).getCode() == KeyCode.ENTER) addAllPersons();
     }
 
-    public void addPerson(String familienaam, String voornaam) {
-        try {
-            table.getItems().add(
-                    jdbcDAC.getPersonDAO().createPerson(familienaam, voornaam)
-            );
-        } catch (Exception e) {
-            System.err.println("Error adding person:\n" + e.getMessage());
-        }
+    public void addPerson(String familienaam, String voornaam) throws DataAccessException {
+        table.getItems().add(
+                jdbcDAC.getPersonDAO().createPerson(familienaam, voornaam)
+        );
     }
     private void addAllPersons() {
         try {
@@ -99,34 +89,42 @@ public class MainPage {
         jdbcDAC.getContactDAO().deleteContact(contact.getId());
     }
 
-    public List<String> getAllContactTypes() {
-        try {
-            return jdbcDAC.getContactTypeDAO().getAllContactTypes();
-        } catch (Exception e) {
-            System.err.println("Error getting all contact types:\n" + e.getMessage());
-        }
-        return null;
+    public List<String> getAllContactTypes() throws DataAccessException {
+        return jdbcDAC.getContactTypeDAO().getAllContactTypes().stream().map(ContactCode::naam).toList();
     }
 
-    public List<Contact> getAllPersonContacts(Person person) {
+    public List<Contact> getAllPersonContacts(Person person) throws DataAccessException {
         List<Contact> contacts = new ArrayList<>();
-        try {
-            for (Contact c: jdbcDAC.getContactDAO().findContacts(person.getId())) {
-                c.setCode(jdbcDAC.getContactTypeDAO().findContactType(c.getCode()).naam());
-                contacts.add(c);
-            }
-        } catch (Exception e) {
-            System.err.println("Error getting all contact types:\n" + e.getMessage());
+        for (Contact c: jdbcDAC.getContactDAO().findContacts(person.getId())) {
+            c.setCode(jdbcDAC.getContactTypeDAO().findContactType(c.getCode()).naam());
+            contacts.add(c);
         }
         return contacts;
     }
 
-    public void updateContactAdres(Contact contact, String newAdres) {
-        try {
-            jdbcDAC.getContactDAO().editContact(contact.getId(), newAdres);
-        } catch (Exception e) {
-            System.err.println("Error setting new adres:\n" + e.getMessage());
+    public void createContactAdres(String contactType, Person person) throws DataAccessException {
+        String code = "";
+        for (ContactCode contactCode: jdbcDAC.getContactTypeDAO().getAllContactTypes()) {
+            if (contactCode.naam().equals(contactType)) {
+                code = contactCode.id();
+                break;
+            }
         }
+        jdbcDAC.getContactDAO().createContact(
+                person.getId(),
+                code,
+                ""
+        );
+    }
+
+    public void updateContactAdres(Contact contact, String newAdres) throws DataAccessException {
+        jdbcDAC.getContactDAO().editContact(contact.getId(), newAdres);
+    }
+
+    public void updatePerson(Person person, String newFamilienaam, String newVoornaam) throws DataAccessException {
+        jdbcDAC.getPersonDAO().updatePerson(person.getId(), newFamilienaam, newVoornaam);
+        table.getItems().remove(person);
+        table.getItems().add(jdbcDAC.getPersonDAO().findPerson(person.getId()));
     }
 
 }

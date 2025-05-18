@@ -11,5 +11,4 @@ public interface ContactDAO {
     void editContact(int id, String adres) throws DataAccessException;
 
     Iterable<Contact> findContacts(int personId) throws DataAccessException;
-    Iterable<Contact> findContactsByType(int personId, String type) throws DataAccessException;
 }

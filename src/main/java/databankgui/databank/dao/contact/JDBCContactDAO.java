@@ -78,17 +78,4 @@ public class JDBCContactDAO extends JDBCAbstractDAO implements ContactDAO {
         }
         return persons;
     }
-
-    @Override
-    public Iterable<Contact> findContactsByType(int personId, String type) throws DataAccessException {
-        Iterable<Contact> persons;
-        try (PreparedStatement getcontacts = prepare("SELECT * FROM contactgegevens WHERE p_id = ? AND code = ?")) {
-            getcontacts.setInt(1, personId);
-            getcontacts.setString(2, type);
-            persons = getContactGegevens(getcontacts);
-        } catch (Exception e) {
-            throw new DataAccessException("Fout bij ophalen van contactcode met p_id " + personId + ":\n" + e.getMessage());
-        }
-        return persons;
-    }
 }

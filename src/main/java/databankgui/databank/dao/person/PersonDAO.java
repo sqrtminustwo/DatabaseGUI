@@ -9,6 +9,7 @@ public interface PersonDAO {
 
     void updatePerson(int id, String newFamilienaam, String newVoornaam) throws DataAccessException;
 
+    Person findPerson(int id) throws DataAccessException;
     void deletePerson(int id) throws DataAccessException;
 
     Iterable<Person> findPersons(String namePrefix) throws DataAccessException;

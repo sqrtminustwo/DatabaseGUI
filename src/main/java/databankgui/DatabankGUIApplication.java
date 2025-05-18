@@ -16,7 +16,9 @@ public class DatabankGUIApplication extends Application {
         stage.setTitle("DatabankGUI");
         stage.setScene(scene);
         stage.setResizable(false);
-        scene.getStylesheets().add(Objects.requireNonNull(DatabankGUIApplication.class.getResource("/styles/style.css")).toExternalForm());
+        Application.setUserAgentStylesheet(Objects.requireNonNull(
+                DatabankGUIApplication.class.getResource("/styles/primer-dark.css")
+        ).toExternalForm());
         stage.show();
     }
 

@@ -7,5 +7,5 @@ import java.util.List;
 public interface ContactTypeDAO {
 
     ContactCode findContactType(String id) throws DataAccessException;
-    List<String> getAllContactTypes() throws DataAccessException;
+    List<ContactCode> getAllContactTypes() throws DataAccessException;
 }

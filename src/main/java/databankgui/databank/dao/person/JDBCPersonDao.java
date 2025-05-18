@@ -13,7 +13,7 @@ public class JDBCPersonDao extends JDBCAbstractDAO implements PersonDAO {
 
     public JDBCPersonDao(Connection connection) { super(connection); }
 
-    public boolean existsPerson(String familienaam, String voornaam) throws DataAccessException {
+    public boolean existsPerson(String familienaam, String voornaam) {
         try (
                 PreparedStatement check = prepare("SELECT * FROM personen WHERE familienaam = ? AND voornaam = ?")
         ) {
@@ -119,5 +119,22 @@ public class JDBCPersonDao extends JDBCAbstractDAO implements PersonDAO {
             throw new DataAccessException("Fout bij ophalen van personen met prefix " + namePrefix + ":\n" + e.getMessage());
         }
         return persons;
+    }
+
+    public Person findPerson(int id) throws DataAccessException {
+        try (
+                PreparedStatement updateperson = prepare(
+                        "SELECT * FROM personen WHERE id = ?"
+                )
+        ) {
+            updateperson.setInt(1, id);
+            ResultSet rs = updateperson.executeQuery();
+            if (rs.next()) {
+                return new Person(rs.getInt("id"), rs.getString("familienaam"), rs.getString("voornaam"));
+            }
+        } catch (Exception e) {
+            throw new DataAccessException("Konde persoon (" + id + ")niet deleten:\n" + e.getMessage());
+        }
+        return null;
     }
 }
