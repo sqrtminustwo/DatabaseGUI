@@ -2,6 +2,7 @@ module databankgui {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires atlantafx.base;
 
     opens databankgui to javafx.fxml;
     opens databankgui.databank.dao.person to javafx.base;
