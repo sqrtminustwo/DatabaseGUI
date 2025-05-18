@@ -35,6 +35,7 @@ This project provides a JavaFX-based GUI for managing a contacts database, as us
 - All buttons include tooltips describing their function.
 - The GUI supports **internationalization**: all UI strings are in a resource bundle and not hardcoded.
 - Contact types are dynamically retrieved from the database and not hardcoded.
+- **To specify the language (English or Dutch), you must provide `en` or `nl` as a command-line argument when launching the application.**
 
 ## Setup Instructions
 

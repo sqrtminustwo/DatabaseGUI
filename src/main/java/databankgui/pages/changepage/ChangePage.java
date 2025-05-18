@@ -11,6 +11,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public abstract class ChangePage {
 
@@ -26,8 +27,10 @@ public abstract class ChangePage {
 
     public void createWindow(MouseEvent mouseEvent) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(DatabankGUIApplication.class.getResource("/fxml/" + fxml));
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                    DatabankGUIApplication.class.getResource("/fxml/" + fxml),
+                    creator.getBundle()
+            );
             fxmlLoader.setController(this);
 
             Scene scene = new Scene(fxmlLoader.load());

@@ -4,6 +4,7 @@ import databankgui.pages.MainPage;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 
 public class AddPage extends ChangePage {
@@ -34,8 +35,11 @@ public class AddPage extends ChangePage {
     public void createWindowLocal() {
         stage.setMinHeight(200); stage.setMinWidth(400);
         stage.setMaxHeight(200); stage.setMaxWidth(400);
-        stage.setTitle("Niuwe persoon");
+        stage.setTitle(creator.getBundle().getString("addPersonTitle"));
+
         createButton.setOnMouseReleased(this::createPerson);
+        createButton.setTooltip(new Tooltip(creator.getBundle().getString("addButtonTooltip")));
         cancelButton.setOnMouseReleased(this::closeWindow);
+        cancelButton.setTooltip(new Tooltip(creator.getBundle().getString("cancelButtonTooltip")));
     }
 }

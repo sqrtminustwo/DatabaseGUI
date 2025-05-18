@@ -32,7 +32,7 @@ public class EditPage extends ChangePage{
 
     @Override
     public void createWindowLocal() {
-        stage.setTitle("Persoonsgegevens");
+        stage.setTitle(creator.getBundle().getString("editPersonTitle"));
         voornaamInput.setText(person.getVoornaam());
         familienaamInput.setText(person.getFamilienaam());
         createTable();
@@ -53,7 +53,7 @@ public class EditPage extends ChangePage{
             }
             return;
         }
-        System.err.println("Voornaam en naam mag niet leeg zijn!");
+        System.err.println("Name cant be empty!");
     }
 
     private void createContact(MouseEvent mouseEvent) {
@@ -77,7 +77,7 @@ public class EditPage extends ChangePage{
     public void createTable() {
         gegevensTable.setEditable(true);
 
-        TableColumn<Contact, String> adresColumn = new Column("Adres", "adres", new StringConverter<String>() {
+        TableColumn<Contact, String> adresColumn = new Column(creator.getBundle().getString("adresColumn"), "adres", new StringConverter<String>() {
             @Override
             public String toString(String adres) { return adres != null ? adres : ""; }
 
@@ -96,7 +96,7 @@ public class EditPage extends ChangePage{
         });
 
         gegevensTable.getColumns().addAll(
-                new Column("Type", "code", 200, false).getColumn(),
+                new Column(creator.getBundle().getString("typeColumn"), "code", 200, false).getColumn(),
                 adresColumn,
                 new Column(param -> new DeletePersonCell(creator, DeletePersonCell.DeleteTypes.DELETEGEGEVEN, this), 50, false).getColumn()
         );

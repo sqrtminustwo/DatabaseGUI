@@ -26,10 +26,10 @@
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </padding>
 
-            <Label text="Voornaam" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Label text="%nameColumn" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
             <TextField prefWidth="200" fx:id="voornaamInput" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"/>
 
-            <Label text="Familienaam" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Label text="%surnameColumn" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
             <TextField prefWidth="200" fx:id="familienaamInput" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"/>
 
         </GridPane>
@@ -40,6 +40,10 @@
                     <Image url="@../icons/save.png"/>
                 </ImageView>
             </graphic>
+
+            <tooltip>
+                <Tooltip text="%savePersonTooltip"/>
+            </tooltip>
         </Button>
     </HBox>
 
@@ -63,6 +67,10 @@
                     <Image url="@../icons/plus.png"/>
                 </ImageView>
             </graphic>
+
+            <tooltip>
+                <Tooltip text="%addContactTooltip"/>
+            </tooltip>
         </Button>
     </HBox>
 

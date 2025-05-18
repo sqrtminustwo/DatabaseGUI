@@ -5,6 +5,7 @@ import databankgui.databank.dao.contact.Contact;
 import databankgui.databank.dao.person.Person;
 import databankgui.pages.MainPage;
 import databankgui.pages.changepage.EditPage;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 
 import java.util.Map;
@@ -39,11 +40,13 @@ public class DeletePersonCell extends ButtonCell {
     public DeletePersonCell(MainPage creator, DeleteTypes deleteType) {
         super(creator, "trash.png");
         this.deleteType = deleteType;
+        button.setTooltip(new Tooltip(creator.getBundle().getString("deletePersonTooltip")));
     }
     public DeletePersonCell(MainPage creator, DeleteTypes deleteType, EditPage editPage) {
         super(creator, "trash.png");
         this.deleteType = deleteType;
         this.editPage = editPage;
+        button.setTooltip(new Tooltip(creator.getBundle().getString("deleteContactTooltip")));
     }
 
     @Override

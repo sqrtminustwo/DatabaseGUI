@@ -10,9 +10,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Tooltip?>
 <VBox
         spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-        fx:controller="databankgui.pages.MainPage"
         fx:id="rootVBOX"
     >
     <padding>
@@ -21,7 +21,7 @@
 
     <HBox spacing="10.0"
           xmlns:fx="http://javafx.com/fxml">
-        <Label text="Naam begint met:" styleClass="HeadLabel"/>
+        <Label text="%searchTitle"/>
         <TextField prefWidth="300" fx:id="inputField"/>
         <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" fx:id="searchButton">
             <graphic>
@@ -29,6 +29,10 @@
                     <Image url="@../icons/search.png"/>
                 </ImageView>
             </graphic>
+
+            <tooltip>
+                <Tooltip text="%searchPersonTooltip"/>
+            </tooltip>
         </Button>
 
         <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" fx:id="addButton">
@@ -37,6 +41,10 @@
                     <Image url="@../icons/plus.png"/>
                 </ImageView>
             </graphic>
+
+            <tooltip>
+                <Tooltip text="%addPageTooltip"/>
+            </tooltip>
         </Button>
     </HBox>
 

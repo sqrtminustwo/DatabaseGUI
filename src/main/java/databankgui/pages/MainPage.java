@@ -19,6 +19,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class MainPage {
 
@@ -32,16 +33,18 @@ public class MainPage {
     protected Button addButton;
     @FXML
     protected TableView<Person> table;
+    private ResourceBundle bundle;
     private DataAccessContext jdbcDAC;
 
     public void initialize() {
         table.setPrefHeight(500);
         table.setMaxWidth(515);
-        table.setPlaceholder(new Label("No person found"));
+
+        table.setPlaceholder(new Label(bundle.getString("emptyTable")));
 
         List<Column> toAdd = List.of(
-                new Column("Voornaam", "voornaam", 200, false),
-                new Column("Familienaam", "familienaam", 200, false),
+                new Column(bundle.getString("nameColumn"), "voornaam", 200, false),
+                new Column(bundle.getString("surnameColumn"), "familienaam", 200, false),
                 new Column(param -> new EditButtonCell(this), 50, false),
                 new Column(param -> new DeletePersonCell(this, DeletePersonCell.DeleteTypes.DELETEPERSON), 50, false)
         );
@@ -127,4 +130,6 @@ public class MainPage {
         table.getItems().add(jdbcDAC.getPersonDAO().findPerson(person.getId()));
     }
 
+    public void setBundle(ResourceBundle resources) { this.bundle = resources; }
+    public ResourceBundle getBundle() { return bundle; }
 }
