@@ -47,7 +47,7 @@ This project provides a JavaFX-based GUI for managing a contacts database, as us
 
 2. To initialize the Apache Derby database used in this example, use:
    ```
-   src/main/resources/setup/ddl.sql
+   src/main/resources/setup/apache.sql
    ```
 
 3. For testing the application, example data is provided in:
@@ -58,7 +58,7 @@ This project provides a JavaFX-based GUI for managing a contacts database, as us
 ## Dependencies
 
 - JavaFX
-- Apache Derby (Java DB)
+- PostgreSQL
 
 ## Visual Styling
 

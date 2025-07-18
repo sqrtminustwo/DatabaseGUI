@@ -15,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +22,6 @@ import java.util.ResourceBundle;
 
 public class MainPage {
 
-    @FXML
-    protected VBox rootVBOX;
     @FXML
     protected TextField inputField;
     @FXML
@@ -124,10 +121,15 @@ public class MainPage {
         jdbcDAC.getContactDAO().editContact(contact.getId(), newAdres);
     }
 
-    public void updatePerson(Person person, String newFamilienaam, String newVoornaam) throws DataAccessException {
-        jdbcDAC.getPersonDAO().updatePerson(person.getId(), newFamilienaam, newVoornaam);
-        table.getItems().remove(person);
-        table.getItems().add(jdbcDAC.getPersonDAO().findPerson(person.getId()));
+    public void updatePerson(Person person, String newFamilienaam, String newVoornaam) {
+        try {
+            jdbcDAC.getPersonDAO().updatePerson(person.getId(), newFamilienaam, newVoornaam);
+            table.getItems().remove(person);
+            table.getItems().add(jdbcDAC.getPersonDAO().findPerson(person.getId()));
+            table.refresh();
+        } catch (DataAccessException e) {
+            System.out.println("You are either trying to update person twice or person already exists in database:\n" + e.getMessage());
+        }
     }
 
     public void setBundle(ResourceBundle resources) { this.bundle = resources; }
