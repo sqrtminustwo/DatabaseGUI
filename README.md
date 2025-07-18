@@ -40,20 +40,22 @@ This project provides a JavaFX-based GUI for managing a contacts database, as us
 ## Setup Instructions
 
 1. Copy the `db.properties.template` from:
-   ```
-   src/main/resources/properties/
-   ```
+   
+   [src/main/resources/properties/db.properties.template](src/main/resources/properties/db.properties.template)
+   
    Rename it to `db.properties` and configure it for your database setup.
 
-2. To initialize the Apache Derby database used in this example, use:
-   ```
-   src/main/resources/setup/apache.sql
-   ```
+2. To initialize the PostgreSQL database used in this example, use:
+   
+   [src/main/resources/setup/postgre.sql](src/main/resources/setup/postgre.sql)
+   
 
 3. For testing the application, example data is provided in:
-   ```
-   src/main/resources/setup/names.csv
-   ```
+   
+   [src/main/resources/setup/names.csv](src/main/resources/setup/names.csv)
+   
+   [src/main/resources/setup/contactcodes.csv](src/main/resources/setup/contactcodes.csv)
+   
 
 ## Dependencies
 
